@@ -1,8 +1,21 @@
 from datetime import datetime
 from datetime import time
 
+from reader import DbReader
+
+
 class Route:
-    def __init__(self, id:str, short_name:str, origin:str, destination:str, long_name:str =None, schedule:list=None, first_departure:datetime=None, last_departure:datetime=None) -> Route:
+    def __init__(
+        self,
+        id,
+        short_name,
+        origin,
+        destination,
+        long_name =None,
+        schedule=None,
+        first_departure=None,
+        last_departure=None
+    ):
         self.id = id
         self.short_name = short_name
         self.long_name = long_name
@@ -21,10 +34,9 @@ class Route:
         '''
         self.stops = {}
 
-    def get_cost(self, origin:str, destination:str) -> long:
+    def get_cost(self, origin, destination):
         ''' Return the Presto cost (in CAD) of traveling from origin to destination on this route. '''
         try:
-            price = self.stops[destination] - self.stops[origin]
-            return max(price, 3.70)
+            return self.stops[destination] - self.stops[origin] # load in prices.txt later to calculate
         except:
             raise ValueError('Origin or destination is invalid.')
